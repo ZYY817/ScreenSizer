@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Probe/Probe.csproj" />
+  <Project Path="ScreenSizer/ScreenSizer.csproj" />
+</Solution>
