@@ -16,6 +16,9 @@
     <Description>AimFrame 准框（原名 ScreenSizer）：把大屏缩成小屏，为 FPS 玩家带来更熟悉的职业手感</Description>
     <Authors>智宇丶817</Authors>
     <ApplicationIcon>Assets\AimFrame.ico</ApplicationIcon>
+    <!-- 单文件发布时必须带原生库自解压，否则 WPF 启动即崩 -->
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
   </PropertyGroup>
 
   <ItemGroup>
