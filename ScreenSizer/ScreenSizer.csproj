@@ -9,7 +9,7 @@
     <!-- 仅用于托盘 NotifyIcon；去掉 WinForms 的全局 using，避免与 WPF 类型冲突 -->
     <UseWindowsForms>true</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <AssemblyName>AimFrame</AssemblyName>
     <AssemblyTitle>AimFrame 准框</AssemblyTitle>
     <Product>AimFrame</Product>
