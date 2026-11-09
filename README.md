@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/aimframe-logo.png" width="160" alt="AimFrame logo">
+</p>
+
 # AimFrame 准框
 
 ![AimFrame 主界面](docs/images/main-light.jpg)

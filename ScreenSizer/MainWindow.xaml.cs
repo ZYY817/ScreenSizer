@@ -1354,7 +1354,7 @@ public partial class MainWindow : Window
     private void About_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         double h = AboutScroll.ActualHeight;
-        foreach (var s in new[] { S1, S2, S3, S4 }) s.Height = h;
+        foreach (var s in new[] { S1, S2, S3, S4, S5, S6 }) s.Height = h;
         if (_parallax.Count == 0)
         {
             void Reg(FrameworkElement el, int sec, double sy, double sx = 0, double x0 = 0)
@@ -1366,6 +1366,8 @@ public partial class MainWindow : Window
             Reg(S2W1, 1, 0, -0.7, -120); Reg(S2W2, 1, 0, 0.55, -320); Reg(S2W3, 1, 0, -0.4, -60); Reg(S2Card, 1, -0.2);
             Reg(S3Left, 2, -0.25); Reg(S3P1, 2, 0.3); Reg(S3P2, 2, -0.1);
             Reg(S4Left, 3, -0.12); Reg(S4Right, 3, 0.08);
+            Reg(S5Left, 4, -0.12); Reg(S5Right, 4, 0.08);
+            Reg(S6Left, 5, -0.12); Reg(S6Right, 5, 0.08);
         }
         AboutScroll.ScrollToVerticalOffset(_aboutIndex * h);
         UpdateAboutParallax();
@@ -1399,7 +1401,7 @@ public partial class MainWindow : Window
 
     private void ScrollAboutTo(int idx)
     {
-        idx = Math.Clamp(idx, 0, 3);
+        idx = Math.Clamp(idx, 0, 5);
         _aboutIndex = idx;
         double h = AboutScroll.ActualHeight, from = AboutScroll.VerticalOffset, to = idx * h;
         _aboutTween?.Stop();
@@ -1416,6 +1418,17 @@ public partial class MainWindow : Window
     {
         if (sender is FrameworkElement { Tag: string url }) OpenUrl(url);
     }
+
+    private void ZanOpen_Click(object sender, MouseButtonEventArgs e)
+    {
+        bool alipay = (sender as FrameworkElement)?.Tag as string == "alipay";
+        ZanImg.Source = new BitmapImage(new Uri($"pack://application:,,,/Assets/zan-{(alipay ? "alipay" : "wechat")}.jpg"));
+        ZanTitle.Text = alipay ? "支付宝扫码" : "微信扫码";
+        ZanLayer.Visibility = Visibility.Visible;
+        e.Handled = true;
+    }
+
+    private void ZanLayer_Close(object sender, MouseButtonEventArgs e) => ZanLayer.Visibility = Visibility.Collapsed;
 
     private static void OpenUrl(string url)
     {

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:ScreenSizer.Controls"
         Title="AimFrame 准框" Width="880" Height="620"
+        Icon="pack://application:,,,/Assets/AimFrame.ico"
         WindowStyle="None" AllowsTransparency="False" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         FontFamily="{StaticResource UiFont}" Foreground="{DynamicResource TextBrush}"
@@ -146,10 +147,7 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="6" VerticalAlignment="Bottom" Style="{StaticResource RowLine}"/>
                     <StackPanel Orientation="Horizontal" Margin="20,0,28,0" VerticalAlignment="Center">
-                        <Canvas Width="22" Height="22">
-                            <Path Data="M1,7 V1 H7 M15,1 H21 V7 M21,15 V21 H15 M7,21 H1 V15" Stroke="{DynamicResource TextBrush}" StrokeThickness="2"/>
-                            <Rectangle Canvas.Left="7.5" Canvas.Top="9" Width="7" Height="4" Fill="{DynamicResource AccentBrush}"/>
-                        </Canvas>
+                        <Image Source="pack://application:,,,/Assets/AimFrame.png" Width="24" Height="24"/>
                         <c:TrackedText Text="AIM" FontSize="14" FontWeight="Bold" Tracking="0.2" Margin="10,0,0,0"
                                        Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
                         <c:TrackedText Text="FRAME" FontSize="14" FontWeight="Light" Tracking="0.2" Margin="3,0,0,0"
@@ -880,11 +878,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackPanel x:Name="S4Left" VerticalAlignment="Center">
-                                            <Canvas Width="60" Height="60" HorizontalAlignment="Left">
-                                                <Canvas.RenderTransform><ScaleTransform ScaleX="2.727" ScaleY="2.727"/></Canvas.RenderTransform>
-                                                <Path Data="M1,7 V1 H7 M15,1 H21 V7 M21,15 V21 H15 M7,21 H1 V15" Stroke="{DynamicResource TextBrush}" StrokeThickness="1.4"/>
-                                                <Rectangle Canvas.Left="7.5" Canvas.Top="9" Width="7" Height="4" Fill="{DynamicResource AccentBrush}"/>
-                                            </Canvas>
+                                            <Image Source="pack://application:,,,/Assets/AimFrame.png" Width="64" Height="64" HorizontalAlignment="Left"/>
                                             <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                                                 <c:TrackedText Text="AIM" FontSize="26" FontWeight="Bold" Tracking="0.18" Foreground="{DynamicResource TextBrush}"/>
                                                 <c:TrackedText Text="FRAME" FontSize="26" FontWeight="Light" Tracking="0.18" Foreground="{DynamicResource TextBrush}" Margin="4,0,0,0"/>
@@ -995,6 +989,64 @@
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
+
+                                <!-- 05 · SUPPORT · 微信 -->
+                                <Grid x:Name="S5" ClipToBounds="True">
+                                    <Border Style="{StaticResource RowLine}" VerticalAlignment="Top"/>
+                                    <Grid Margin="40,0,64,0" VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"/>
+                                            <ColumnDefinition Width="34"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel x:Name="S5Left" VerticalAlignment="Center">
+                                            <c:TrackedText Style="{StaticResource Cap}" Prefix="05" Text="SUPPORT" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="请作者喝杯咖啡。" FontSize="28" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                                            <TextBlock Style="{StaticResource Hint}" FontSize="13" LineHeight="22" Foreground="{DynamicResource Text2Brush}" Margin="0,12,0,0"
+                                                       Text="AimFrame 免费开源，没有广告。&#x0a;如果它帮你找回了职业手感，&#x0a;微信扫码，请智宇丶817 喝杯咖啡。"/>
+                                        </StackPanel>
+                                        <StackPanel x:Name="S5Right" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Border Style="{StaticResource Card}" Padding="12">
+                                                <StackPanel>
+                                                    <Border Tag="wechat" Background="White" CornerRadius="10" Padding="7" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1"
+                                                            Cursor="Hand" ToolTip="点击放大" MouseLeftButtonUp="ZanOpen_Click">
+                                                        <Image Source="pack://application:,,,/Assets/zan-wechat.jpg" Height="368" Stretch="Uniform"/>
+                                                    </Border>
+                                                    <TextBlock Text="微信 · 扫码赞赏" FontSize="11.5" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,9,0,0"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+
+                                <!-- 06 · ALIPAY -->
+                                <Grid x:Name="S6" ClipToBounds="True">
+                                    <Border Style="{StaticResource RowLine}" VerticalAlignment="Top"/>
+                                    <Grid Margin="40,0,64,0" VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"/>
+                                            <ColumnDefinition Width="34"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel x:Name="S6Left" VerticalAlignment="Center">
+                                            <c:TrackedText Style="{StaticResource Cap}" Prefix="06" Text="ALIPAY" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="支付宝也可以。" FontSize="28" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                                            <TextBlock Style="{StaticResource Hint}" FontSize="13" LineHeight="22" Foreground="{DynamicResource Text2Brush}" Margin="0,12,0,0"
+                                                       Text="支付宝扫码，同样能请智宇丶817 喝杯咖啡。&#x0a;每一杯都会变成下一版的功能。&#x0a;感谢支持。"/>
+                                        </StackPanel>
+                                        <StackPanel x:Name="S6Right" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Border Style="{StaticResource Card}" Padding="12">
+                                                <StackPanel>
+                                                    <Border Tag="alipay" Background="White" CornerRadius="10" Padding="7" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1"
+                                                            Cursor="Hand" ToolTip="点击放大" MouseLeftButtonUp="ZanOpen_Click">
+                                                        <Image Source="pack://application:,,,/Assets/zan-alipay.jpg" Height="368" Stretch="Uniform"/>
+                                                    </Border>
+                                                    <TextBlock Text="支付宝 · 扫码赞赏" FontSize="11.5" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,9,0,0"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
                             </StackPanel>
                         </ScrollViewer>
                         <StackPanel x:Name="AboutDots" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,16,0">
@@ -1002,6 +1054,8 @@
                             <Button Style="{StaticResource AboutDot}" Content="WHY" Click="AboutDot_Click"/>
                             <Button Style="{StaticResource AboutDot}" Content="24.5″" Click="AboutDot_Click"/>
                             <Button Style="{StaticResource AboutDot}" Content="ABOUT" Click="AboutDot_Click"/>
+                            <Button Style="{StaticResource AboutDot}" Content="WECHAT" Click="AboutDot_Click"/>
+                            <Button Style="{StaticResource AboutDot}" Content="ALIPAY" Click="AboutDot_Click"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -1072,6 +1126,20 @@
                     <Rectangle.Effect><DropShadowEffect ShadowDepth="0" BlurRadius="18" Color="{DynamicResource AccentColor}"/></Rectangle.Effect>
                     <Rectangle.RenderTransform><TranslateTransform x:Name="IntroScanT"/></Rectangle.RenderTransform>
                 </Rectangle>
+            </Grid>
+
+            <!-- 赞赏码放大层：点码弹出，点任意处关闭 -->
+            <Grid x:Name="ZanLayer" Background="{DynamicResource OverlayBrush}" Visibility="Collapsed" MouseLeftButtonUp="ZanLayer_Close">
+                <Border c:Cut.Size="16" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource Line2Brush}" BorderThickness="1" Padding="26,20">
+                    <StackPanel>
+                        <TextBlock x:Name="ZanTitle" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                        <Border Background="White" CornerRadius="10" Padding="10" Margin="0,12,0,0" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1">
+                            <Image x:Name="ZanImg" Height="430" Stretch="Uniform"/>
+                        </Border>
+                        <TextBlock Text="手机扫码 · 点击任意处关闭" FontSize="11" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                    </StackPanel>
+                </Border>
             </Grid>
 
             <!-- 提示：底部居中，不遮右侧预览卡片的说明文字 -->
