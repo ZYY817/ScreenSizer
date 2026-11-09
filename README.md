@@ -77,7 +77,11 @@ AimFrame 把这套操作做成了一个按钮。选好尺寸点应用，玩完�
 
 ## 7 下载与构建
 
-新界面还没有打包成 Release，现在需要自己编译。需要 Windows 10 / 11 和 .NET 8 SDK：
+在 [Releases](https://github.com/ZYY817/ScreenSizer/releases/latest) 下载 `AimFrame.exe`，双击就能运行，不用安装 .NET。支持 Windows 10 / 11（64 位）。
+
+第一次运行时 Windows 可能弹出「已保护你的电脑」，这是因为程序没有数字签名，点「更多信息」再点「仍要运行」即可。
+
+想自己编译的话，需要 .NET 8 SDK：
 
 ```bash
 dotnet build ScreenSizer/ScreenSizer.csproj -c Release
