@@ -35,6 +35,7 @@
     <Resource Include="Assets\zan-wechat.jpg" />
     <Resource Include="Assets\AimFrame.ico" />
     <Resource Include="Assets\AimFrame.png" />
+    <Resource Include="Assets\mark.ico" />
   </ItemGroup>
 
 </Project>

@@ -29,7 +29,11 @@ internal sealed class TrayService : IDisposable
             Visible = true,
         };
         _icon.DoubleClick += (_, _) => open();
-        SetAccent(Color.FromArgb(0xFF, 0x3B, 0x4E));
+        // 托盘使用应用图标，与 exe / 任务栏一致
+        var s = System.Windows.Application.GetResourceStream(
+            new Uri("pack://application:,,,/Assets/AimFrame.ico"))?.Stream;
+        if (s != null) _ico = new Icon(s);
+        if (_ico != null) _icon.Icon = _ico;
     }
 
     public void Update(string applyText, bool live, string tip)
@@ -43,25 +47,8 @@ internal sealed class TrayService : IDisposable
     public void Balloon(string title, string text)
         => _icon.ShowBalloonTip(3000, title, text, WinForms.ToolTipIcon.Info);
 
-    /// <summary>托盘图标：四角取景框 + 强调色中心块（与应用 Logo 一致）。</summary>
-    public void SetAccent(Color accent)
-    {
-        using var bmp = new Bitmap(32, 32);
-        using (var g = Graphics.FromImage(bmp))
-        {
-            g.SmoothingMode = SmoothingMode.None;
-            g.Clear(Color.Transparent);
-            using var pen = new Pen(Color.White, 3);
-            void L(int x1, int y1, int x2, int y2, int x3, int y3) => g.DrawLines(pen, new[] { new Point(x1, y1), new Point(x2, y2), new Point(x3, y3) });
-            L(2, 11, 2, 2, 11, 2); L(21, 2, 30, 2, 30, 11); L(30, 21, 30, 30, 21, 30); L(11, 30, 2, 30, 2, 21);
-            using var b = new SolidBrush(accent);
-            g.FillRectangle(b, 10, 12, 12, 8);
-        }
-        var old = _ico;
-        _ico = Icon.FromHandle(bmp.GetHicon());
-        _icon.Icon = _ico;
-        old?.Dispose();
-    }
+    /// <summary>主题强调色变化时托盘保持应用图标不变。</summary>
+    public void SetAccent(Color accent) { }
 
     public void Dispose()
     {

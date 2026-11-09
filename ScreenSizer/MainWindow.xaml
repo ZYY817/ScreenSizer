@@ -147,7 +147,10 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="6" VerticalAlignment="Bottom" Style="{StaticResource RowLine}"/>
                     <StackPanel Orientation="Horizontal" Margin="20,0,28,0" VerticalAlignment="Center">
-                        <Image Source="pack://application:,,,/Assets/AimFrame.png" Width="24" Height="24"/>
+                        <Canvas Width="22" Height="22">
+                            <Path Data="M1,7 V1 H7 M15,1 H21 V7 M21,15 V21 H15 M7,21 H1 V15" Stroke="{DynamicResource TextBrush}" StrokeThickness="2"/>
+                            <Rectangle Canvas.Left="7.5" Canvas.Top="9" Width="7" Height="4" Fill="{DynamicResource AccentBrush}"/>
+                        </Canvas>
                         <c:TrackedText Text="AIM" FontSize="14" FontWeight="Bold" Tracking="0.2" Margin="10,0,0,0"
                                        Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
                         <c:TrackedText Text="FRAME" FontSize="14" FontWeight="Light" Tracking="0.2" Margin="3,0,0,0"
