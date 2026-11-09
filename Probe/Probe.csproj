@@ -11,6 +11,13 @@
   <ItemGroup>
     <Compile Include="..\ScreenSizer\Native\NativeMethods.cs" Link="Native\NativeMethods.cs" />
     <Compile Include="..\ScreenSizer\Native\NvApi.cs" Link="Native\NvApi.cs" />
+    <Compile Include="..\ScreenSizer\Native\CcdApi.cs" Link="Native\CcdApi.cs" />
+    <Compile Include="..\ScreenSizer\Models\DisplayInfo.cs" Link="Models\DisplayInfo.cs" />
+    <Compile Include="..\ScreenSizer\Services\IScreenScaler.cs" Link="Services\IScreenScaler.cs" />
+    <Compile Include="..\ScreenSizer\Services\StateStore.cs" Link="Services\StateStore.cs" />
+    <Compile Include="..\ScreenSizer\Services\AppPaths.cs" Link="Services\AppPaths.cs" />
+    <Compile Include="..\ScreenSizer\Services\SizeCalculator.cs" Link="Services\SizeCalculator.cs" />
+    <Compile Include="..\ScreenSizer\Services\CcdScaler.cs" Link="Services\CcdScaler.cs" />
   </ItemGroup>
 
 </Project>

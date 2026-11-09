@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- 浅色 · 实验室：暖白纸面 + 石墨文字 -->
+    <Color x:Key="BgColor">#F3F3EF</Color>
+    <Color x:Key="SpotColor">#0F15171B</Color>
+    <Color x:Key="SpotClearColor">#0015171B</Color>
+    <SolidColorBrush x:Key="BgBrush" Color="#F3F3EF"/>
+    <SolidColorBrush x:Key="DotBrush" Color="#12141A1E"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="Surface2Brush" Color="#E9E9E3"/>
+    <SolidColorBrush x:Key="LineBrush" Color="#1714161A"/>
+    <SolidColorBrush x:Key="Line2Brush" Color="#2E14161A"/>
+    <SolidColorBrush x:Key="TextBrush" Color="#15171B"/>
+    <SolidColorBrush x:Key="Text2Brush" Color="#565B63"/>
+    <SolidColorBrush x:Key="Text3Brush" Color="#8D9199"/>
+    <SolidColorBrush x:Key="GhostStrokeBrush" Color="#1A15171B"/>
+    <SolidColorBrush x:Key="SpotBrush" Color="#0D15171B"/>
+    <SolidColorBrush x:Key="BezelBrush" Color="#17191D"/>
+    <SolidColorBrush x:Key="OverlayBrush" Color="#B3F3F3EF"/>
+    <SolidColorBrush x:Key="WindowBorderBrush" Color="#2E14161A"/>
+    <SolidColorBrush x:Key="WarnBrush" Color="#D9480F"/>
+    <SolidColorBrush x:Key="WarnSoftBrush" Color="#17D9480F"/>
+    <SolidColorBrush x:Key="OkBrush" Color="#2FA35F"/>
+    <SolidColorBrush x:Key="GpuOkBrush" Color="#2FC26B"/>
+    <SolidColorBrush x:Key="TitleHoverBrush" Color="#E9E9E3"/>
+    <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="GrainOpacity">0.03</sys:Double>
+</ResourceDictionary>

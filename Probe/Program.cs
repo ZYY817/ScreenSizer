@@ -1,49 +1,61 @@
-﻿// 全链路实测 v2：应用 → 保持 8 秒 → 还原（签名已修复）
-using System.Runtime.InteropServices;
+﻿// CCD 通用后端实测：枚举模式 → 应用 → 保持 → 还原（Intel UHD 630 验证用）
+// 用法：dotnet run --project Probe -c Debug -- [W] [H] [holdSeconds]
+using ScreenSizer.Models;
 using ScreenSizer.Native;
+using ScreenSizer.Services;
 
-const uint W = 2208, H = 1242;
+int w = args.Length > 0 ? int.Parse(args[0]) : 1920;
+int h = args.Length > 1 ? int.Parse(args[1]) : 1080;
+int hold = args.Length > 2 ? int.Parse(args[2]) : 6;
 
-NvApi.Initialize();
-uint displayId = NvApi.GetDisplayId("\\\\.\\DISPLAY1");
-uint? savedScaling = NvApi.GetScaling(displayId);
-Console.WriteLine($"displayId: 0x{displayId:x8} 当前缩放: {savedScaling}");
+// 以测试前的当前模式作为「原生」，还原时回到这里（不再写死分辨率，避免把用户屏幕改到别的档位）
+const string Dev = @"\\.\DISPLAY1";
+var cur = new NativeMethods.DEVMODE { dmSize = (ushort)System.Runtime.InteropServices.Marshal.SizeOf<NativeMethods.DEVMODE>() };
+if (!NativeMethods.EnumDisplaySettingsEx(Dev, NativeMethods.ENUM_CURRENT_SETTINGS, ref cur, 0))
+{
+    Console.WriteLine("读取当前显示模式失败，已退出，未做任何改动");
+    return;
+}
+Console.WriteLine($"测试前模式: {cur.dmPelsWidth}x{cur.dmPelsHeight}@{cur.dmDisplayFrequency}Hz（还原目标）");
+
+var d = new DisplayInfo
+{
+    DeviceName = Dev,
+    IsPrimary = true,
+    NativeWidth = (int)cur.dmPelsWidth,
+    NativeHeight = (int)cur.dmPelsHeight,
+    CurrentWidth = (int)cur.dmPelsWidth,
+    CurrentHeight = (int)cur.dmPelsHeight,
+    RefreshHz = cur.dmDisplayFrequency,
+    PhysWidthCm = 60,
+    PhysHeightCm = 34,
+};
+
+var scaler = new CcdScaler(m => Console.WriteLine("  " + m));
+Console.WriteLine($"IsSupported: {scaler.IsSupported}");
+
+var avail = scaler.AvailableTargets(d);
+Console.WriteLine($"可用模式 {avail?.Count ?? 0} 个：" + string.Join(" ", (avail ?? []).Select(m => $"{m.W}x{m.H}")));
+
+Console.WriteLine($"吸附 {w}×{h} → {scaler.SnapTarget(d, w, h)?.ToString() ?? "无需吸附"}");
+
+Console.WriteLine($"\n=== 应用 {w}×{h} 居中 ===");
+var r = scaler.Apply(d, w, h);
+Console.WriteLine($"Apply: {r.Ok} {r.Message}");
 
 try
 {
-    var timing = NvApi.GetTiming(displayId, W, H, 280f);
-    var cust = NvApi.MakeCustomDisplay(W, H, timing);
-
-    Console.WriteLine("3 秒后应用…");
-    Thread.Sleep(3000);
-
-    NvApi.TryCustomDisplay(displayId, ref cust);
-    Console.WriteLine("✓ TryCustomDisplay");
-
-    NvApi.SaveCustomDisplay(displayId);
-    Console.WriteLine("✓ SaveCustomDisplay（已进分辨率列表）");
-
-    NvApi.SetScaling(displayId, NvApi.NV_SCALING_GPU_SCANOUT_TO_NATIVE);
-    Console.WriteLine("✓ 缩放 = 居中无缩放");
-
-    var dm = new NativeMethods.DEVMODE { dmSize = (ushort)Marshal.SizeOf<NativeMethods.DEVMODE>() };
-    NativeMethods.EnumDisplaySettingsEx("\\\\.\\DISPLAY1", NativeMethods.ENUM_CURRENT_SETTINGS, ref dm, 0);
-    Console.WriteLine($"当前模式: {dm.dmPelsWidth}x{dm.dmPelsHeight}@{dm.dmDisplayFrequency}Hz — 保持 8 秒");
-    Thread.Sleep(8000);
+    if (r.Ok)
+    {
+        Console.WriteLine($"保持 {hold} 秒…");
+        Thread.Sleep(hold * 1000);
+    }
 }
 finally
 {
-    Console.WriteLine("还原中…");
-    NvApi.RevertCustomDisplayTrial(displayId);
-    if (savedScaling.HasValue) NvApi.SetScaling(displayId, savedScaling.Value);
-
-    // 删除保存的自定义分辨率
-    var timing = NvApi.GetTiming(displayId, W, H, 280f);
-    var cust = NvApi.MakeCustomDisplay(W, H, timing);
-    NvApi.DeleteCustomDisplay(displayId, ref cust);
-    Console.WriteLine("✓ 已还原 + 已删除自定义分辨率");
-
-    var dm = new NativeMethods.DEVMODE { dmSize = (ushort)Marshal.SizeOf<NativeMethods.DEVMODE>() };
-    NativeMethods.EnumDisplaySettingsEx("\\\\.\\DISPLAY1", NativeMethods.ENUM_CURRENT_SETTINGS, ref dm, 0);
-    Console.WriteLine($"最终模式: {dm.dmPelsWidth}x{dm.dmPelsHeight}@{dm.dmDisplayFrequency}Hz");
+    Console.WriteLine("\n=== 还原 ===");
+    var rr = scaler.Restore();
+    Console.WriteLine($"Restore: {rr.Ok} {rr.Message}");
+    var fr = scaler.ForceRestore(d);
+    Console.WriteLine($"ForceRestore: {fr.Ok} {fr.Message}");
 }

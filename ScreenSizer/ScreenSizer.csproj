@@ -6,13 +6,21 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <!-- 仅用于托盘 NotifyIcon；去掉 WinForms 的全局 using，避免与 WPF 类型冲突 -->
+    <UseWindowsForms>true</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Version>1.0.0</Version>
-    <AssemblyTitle>ScreenSizer</AssemblyTitle>
-    <Product>ScreenSizer</Product>
-    <Description>把大屏缩成小屏，为 FPS 玩家带来更熟悉的职业手感</Description>
+    <AssemblyName>AimFrame</AssemblyName>
+    <AssemblyTitle>AimFrame 准框</AssemblyTitle>
+    <Product>AimFrame</Product>
+    <Description>AimFrame 准框（原名 ScreenSizer）：把大屏缩成小屏，为 FPS 玩家带来更熟悉的职业手感</Description>
     <Authors>智宇丶817</Authors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Management" Version="8.0.0" />

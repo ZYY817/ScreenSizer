@@ -4,19 +4,25 @@ using ScreenSizer.Native;
 
 namespace ScreenSizer.Services;
 
-public sealed record ScaleResult(bool Ok, string Message);
-
 /// <summary>
 /// NVIDIA 驱动级缩放：自定义分辨率 + GPU 居中无缩放。
 /// 复刻 NVIDIA 控制面板"调整桌面尺寸和位置"的效果。
 /// </summary>
-internal sealed class NvidiaScaler
+internal sealed class NvidiaScaler : IScreenScaler
 {
     private readonly Action<string> _log;
 
     public NvidiaScaler(Action<string> log) => _log = log;
 
+    public string Backend => "nvidia";
+
     public bool IsSupported => NvApi.IsAvailable;
+
+    /// <summary>NVAPI 能造任意分辨率，无需吸附。</summary>
+    public (int W, int H)? SnapTarget(DisplayInfo d, int w, int h) => null;
+
+    /// <summary>不限制候选分辨率。</summary>
+    public IReadOnlyList<(int W, int H)>? AvailableTargets(DisplayInfo d) => null;
 
     /// <summary>把 display 缩到 w×h 居中显示。</summary>
     public ScaleResult Apply(DisplayInfo d, int w, int h)
@@ -41,6 +47,7 @@ internal sealed class NvidiaScaler
                 {
                     DeviceName = d.DeviceName,
                     DisplayId = displayId,
+                    Backend = Backend,
                     TargetW = w,
                     TargetH = h,
                     SavedScaling = curScaling ?? NvApi.NV_SCALING_GPU_SCALING_TO_NATIVE,

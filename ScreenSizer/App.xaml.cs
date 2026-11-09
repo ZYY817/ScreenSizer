@@ -5,20 +5,24 @@ namespace ScreenSizer;
 
 public partial class App : Application
 {
+    private bool _crashShown;
+
     public App()
     {
         DispatcherUnhandledException += (s, e) =>
         {
-            var path = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "ScreenSizer", "crash.log");
+            var path = ScreenSizer.Services.AppPaths.File("crash.log");
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(path)!);
                 File.WriteAllText(path, e.Exception.ToString());
             }
             catch { }
-            MessageBox.Show($"出错了：{e.Exception.Message}\n详情已写入 {path}", "ScreenSizer");
+            if (!_crashShown)
+            {
+                _crashShown = true;
+                MessageBox.Show($"出错了：{e.Exception.Message}\n详情已写入 {path}", "AimFrame 准框");
+            }
             e.Handled = true;
         };
     }

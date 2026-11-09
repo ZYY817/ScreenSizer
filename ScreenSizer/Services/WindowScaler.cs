@@ -11,6 +11,21 @@ internal sealed class WindowScaler
 {
     public sealed record GameWindow(IntPtr Hwnd, string Title, uint Pid)
     {
+        private static readonly string[] Palette = { "#D9822B", "#E2434B", "#5B6CF0", "#2FA37A", "#B35CD6", "#3B8FD9" };
+
+        /// <summary>列表图标上的两个字母。</summary>
+        public string Initials
+        {
+            get
+            {
+                var letters = Title.Where(char.IsLetterOrDigit).Take(2).ToArray();
+                return letters.Length == 0 ? "?" : new string(letters).ToUpperInvariant();
+            }
+        }
+
+        public string IconColor => Palette[(int)(Pid % (uint)Palette.Length)];
+        public string Meta => $"pid {Pid}";
+
         public override string ToString() => $"{Title}  (pid {Pid})";
     }
 
@@ -39,8 +54,8 @@ internal sealed class WindowScaler
         return list;
     }
 
-    /// <summary>窗口居中缩放到 w×h（物理像素），可选置顶层。</summary>
-    public ScaleResult Apply(IntPtr hwnd, int w, int h, int screenW, int screenH, bool topmost)
+    /// <summary>窗口居中缩放到 w×h（物理像素），可选置顶层。left/top/screenW/screenH 为显示器工作区。</summary>
+    public ScaleResult Apply(IntPtr hwnd, int w, int h, int left, int top, int screenW, int screenH, bool topmost)
     {
         if (!_saved.ContainsKey(hwnd))
         {
@@ -63,8 +78,8 @@ internal sealed class WindowScaler
         else exstyle &= ~NativeMethods.WS_EX_TOPMOST;
         NativeMethods.SetWindowLongPtr(hwnd, NativeMethods.GWL_EXSTYLE, new IntPtr(exstyle));
 
-        int x = (screenW - w) / 2;
-        int y = (screenH - h) / 2;
+        int x = left + (screenW - w) / 2;
+        int y = top + (screenH - h) / 2;
         NativeMethods.SetWindowPos(hwnd,
             topmost ? NativeMethods.HWND_TOPMOST : NativeMethods.HWND_NOTOPMOST,
             x, y, w, h,

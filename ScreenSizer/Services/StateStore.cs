@@ -7,6 +7,8 @@ public sealed class AppliedState
 {
     public required string DeviceName { get; init; }
     public uint DisplayId { get; init; }
+    /// <summary>写入该状态的后端："nvidia" / "ccd"。还原时按它找回同一个后端。</summary>
+    public string Backend { get; init; } = "nvidia";
     public int TargetW { get; init; }
     public int TargetH { get; init; }
     public uint SavedScaling { get; init; }
@@ -19,12 +21,37 @@ public sealed class AppliedState
 public sealed class AppSettings
 {
     public bool DriftDetect { get; set; } = true;
+
+    // 外观
+    public string Theme { get; set; } = "system";   // system / light / dark
+    public int Accent { get; set; }
+    public bool? ReduceMotion { get; set; }          // null = 跟随系统动画设置
+
+    // 运行
+    public bool MinimizeToTray { get; set; } = true;
+    public bool ConfirmCountdown { get; set; } = true;
+    public bool AutoUpdate { get; set; } = true;
+    public DateTime LastUpdateCheck { get; set; }
+    public string? SkippedVersion { get; set; }
+    public string? LatestTag { get; set; }
+    public bool TrayHintShown { get; set; }
+
+    // 全局热键（形如 "Ctrl+Alt+S"）
+    public string HotkeyToggle { get; set; } = "Ctrl+Alt+S";
+    public string HotkeyForce { get; set; } = "Ctrl+Alt+R";
+
+    // 我的配置
+    public List<Profile> Profiles { get; set; } = new()
+    {
+        new("CS2", 24.5), new("VALORANT", 24), new("APEX", 23.8),
+    };
 }
+
+public sealed record Profile(string Name, double Inch);
 
 internal static class SettingsStore
 {
-    private static string File => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScreenSizer", "settings.json");
+    private static string File => AppPaths.File("settings.json");
 
     public static AppSettings Load()
     {
@@ -50,8 +77,7 @@ internal static class SettingsStore
 
 internal static class StateStore
 {
-    private static string Dir => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScreenSizer");
+    private static string Dir => AppPaths.DataDir;
     private static string File => Path.Combine(Dir, "state.json");
 
     public static void Save(AppliedState s)
